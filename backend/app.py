@@ -30,22 +30,22 @@ class Customers(db.Model):
     __tablename__ = "Customers"
 
     # Integer primary key automatically auto increments
-    _id = db.Column(db.Integer, primary_key=True)
-    _first_name = db.Column(db.String(100))
-    _last_name = db.Column(db.String(100))
-    _email = db.Column(db.String(100))
-    _hash = db.Column(db.String(100))
-    _salt = db.Column(db.String(100))
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(100))
+    last_name = db.Column(db.String(100))
+    email = db.Column(db.String(100), unique=True)
+    hash = db.Column(db.String(100))
+    salt = db.Column(db.String(100))
 
-    _orders = relationship("Orders")
+    orders = relationship("Orders")
 
     def __init__(self, first_name, last_name, email, hash, salt):
         """Initialises new Customers instance."""
-        self._first_name = first_name
-        self._last_name = last_name
-        self._email = email
-        self._hash = hash
-        self._salt = salt
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.hash = hash
+        self.salt = salt
 
 
 class Orders(db.Model):
@@ -53,16 +53,16 @@ class Orders(db.Model):
     Has the composite key of customer id and order num. Customer id references the id in the Customer relation."""
     __tablename__ = "Orders"
 
-    _customer_id = db.Column(db.Integer, ForeignKey(
-        "Customers._id"), primary_key=True)
-    _order_num = db.Column(db.Integer, primary_key=True)
-    _total_price = db.Column(db.Float)
+    customer_id = db.Column(db.Integer, ForeignKey(
+        "Customers.id"), primary_key=True)
+    order_num = db.Column(db.Integer, primary_key=True)
+    total_price = db.Column(db.Float)
 
     def __init__(self, customer_id, order_num, total_price):
         """Initialises new Orders instance."""
-        self._customer_id = customer_id
-        self._order_num = order_num
-        self._total_price = total_price
+        self.customer_id = customer_id
+        self.order_num = order_num
+        self.total_price = total_price
 
 
 # class ProductsInOrder(db.Model):
